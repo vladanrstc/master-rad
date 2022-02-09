@@ -5,8 +5,10 @@
  */
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +23,9 @@ import javax.persistence.*;
 @Table(name = "users", catalog = "vladanristic", schema = "")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,7 +80,6 @@ public class User implements Serializable {
     private Date deletedAt;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
-    @JsonManagedReference(value = "user-course-started")
     private List<UserCourseStarted> userCourseStartedList;
 
     public User() {

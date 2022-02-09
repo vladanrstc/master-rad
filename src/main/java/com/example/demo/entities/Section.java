@@ -6,7 +6,9 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,6 +37,9 @@ import javax.persistence.TemporalType;
 @Table(name = "sections", catalog = "vladanristic", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Section.findAll", query = "SELECT s FROM Section s")})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "sectionId")
 public class Section implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,11 +67,9 @@ public class Section implements Serializable {
 
     @JoinColumn(name = "section_course_id", referencedColumnName = "course_id")
     @ManyToOne(optional = false)
-    @JsonBackReference(value = "course")
     private Course sectionCourseId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lessonSectionId")
-    @JsonManagedReference(value = "lessons")
     private List<Lesson> lessonList;
 
     public Section() {

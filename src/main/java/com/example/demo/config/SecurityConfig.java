@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //http.authorizeHttpRequests().anyRequest().permitAll(); // allow all of these paths
+        http.authorizeHttpRequests().antMatchers("/register*").permitAll(); // allow all of these paths
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/svi").hasAnyAuthority("user");
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/samoadmin").hasAnyAuthority("admin");
         http.authorizeHttpRequests().anyRequest().authenticated(); //

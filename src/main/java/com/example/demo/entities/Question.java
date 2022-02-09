@@ -6,7 +6,9 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,6 +37,9 @@ import javax.persistence.TemporalType;
 @Table(name = "questions", catalog = "vladanristic", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q")})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "questionId")
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,16 +63,13 @@ public class Question implements Serializable {
     private Date updatedAt;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
-    @JsonManagedReference(value = "answers")
     private List<Answer> answerList;
 
     @JoinColumn(name = "test_id", referencedColumnName = "test_id")
     @ManyToOne(optional = false)
-    @JsonBackReference(value = "test")
     private Test testId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
-    @JsonManagedReference(value = "test-results")
     private List<TestResult> testResultList;
 
     public Question() {

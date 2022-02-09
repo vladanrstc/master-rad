@@ -5,9 +5,7 @@
  */
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,6 +20,9 @@ import java.util.List;
 @Table(name = "user_courses_started", catalog = "vladanristic", schema = "")
 @NamedQueries({
     @NamedQuery(name = "UserCourseStarted.findAll", query = "SELECT u FROM UserCourseStarted u")})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "userCourseStartedId")
 public class UserCourseStarted implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,16 +54,13 @@ public class UserCourseStarted implements Serializable {
 
     @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     @ManyToOne(optional = false)
-    @JsonBackReference(value = "course")
     private Course courseId;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonBackReference(value = "user")
     private User userId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseStartedId")
-    @JsonManagedReference(value = "lessons-completed")
     private List<LessonCompleted> lessonCompletedList;
 
     public UserCourseStarted() {
