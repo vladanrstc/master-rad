@@ -60,7 +60,7 @@ public class User implements Serializable {
     @Column(name = "role")
     private String role;
 
-    @Basic(optional = false)
+    @Basic(optional = true)
     @Column(name = "language")
     private String language;
 
