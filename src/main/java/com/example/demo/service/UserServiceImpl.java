@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dtos.UserDTO;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +38,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         authorities.add(new SimpleGrantedAuthority("user"));
         //authorities.add(new SimpleGrantedAuthority("admin"));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+    }
+
+    @Override
+    public User updateLoggedUser(User oldUser, User newUser) throws Exception {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        oldUser.setEmail(newUser.getEmail());
+        oldUser.setName(newUser.getName());
+        oldUser.setLastName(newUser.getLastName());
+
+        UserDTO newDtoUser = (UserDTO) newUser;
+
+        if(newDtoUser.getCurrentPassword() != null) {
+            if(passwordEncoder.matches(newDtoUser.getCurrentPassword(), oldUser.getPassword())) {
+                oldUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            } else {
+                throw new Exception("Wrong user password provided!");
+            }
+        }
+        return this.userRepository.save(oldUser);
     }
 
     @Override

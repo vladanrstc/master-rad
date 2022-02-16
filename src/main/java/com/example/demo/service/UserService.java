@@ -10,4 +10,5 @@ public interface UserService {
     User getUser(String email);
     List<User> getUsers();
     UserDetails loadUserByUsername(String email);
+    User updateLoggedUser(User oldUser, User newUser) throws Exception;
 }

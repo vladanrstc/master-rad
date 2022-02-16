@@ -40,7 +40,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Lesson.findAll", query = "SELECT l FROM Lesson l")})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "lessonId")
+        property = "lessonId", scope = Lesson.class)
 public class Lesson implements Serializable {
 
     private static final long serialVersionUID = 1L;

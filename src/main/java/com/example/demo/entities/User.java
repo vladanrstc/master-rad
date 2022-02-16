@@ -5,10 +5,9 @@
  */
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +24,7 @@ import javax.persistence.*;
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id", scope = User.class)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +53,7 @@ public class User implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @Basic(optional = false)
@@ -99,6 +99,13 @@ public class User implements Serializable {
         this.language = language;
     }
 
+    public User(String name, String lastName, String email, String password) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
@@ -139,10 +146,12 @@ public class User implements Serializable {
         this.emailVerifiedAt = emailVerifiedAt;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -227,5 +236,5 @@ public class User implements Serializable {
     public String toString() {
         return "andjelina.User[ id=" + id + " ]";
     }
-    
+
 }

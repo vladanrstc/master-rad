@@ -22,7 +22,7 @@ import java.util.List;
     @NamedQuery(name = "UserCourseStarted.findAll", query = "SELECT u FROM UserCourseStarted u")})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "userCourseStartedId")
+        property = "userCourseStartedId", scope = UserCourseStarted.class)
 public class UserCourseStarted implements Serializable {
 
     private static final long serialVersionUID = 1L;
