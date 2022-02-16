@@ -5,6 +5,7 @@
  */
 package com.example.demo.entities;
 
+import com.example.demo.dtos.LessonEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -41,7 +42,7 @@ import javax.persistence.TemporalType;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "lessonId", scope = Lesson.class)
-public class Lesson implements Serializable {
+public class Lesson implements Serializable, LessonEntity {
 
     private static final long serialVersionUID = 1L;
 
