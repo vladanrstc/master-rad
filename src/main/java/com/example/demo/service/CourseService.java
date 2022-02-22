@@ -10,6 +10,7 @@ public interface CourseService {
 
     List<Course> getCoursesUserEnrolledIn(Long userId);
     List<Course> getCoursesUserNotEnrolledIn(Long userId);
-    CourseDTO getCourseBySlug(String courseSlug);
+    CourseDTO getCourseBySlug(String courseSlug, Long userId);
+    float calculateCourseAverageMark(Long courseId);
 
 }

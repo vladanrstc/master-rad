@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.dtos.CourseDTO;
-import com.example.demo.entities.Course;
+import com.example.demo.entities.*;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.CourseStartedRepository;
+import com.example.demo.repository.LessonCompletedRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +14,27 @@ import java.util.List;
 @Service
 public class CourseServiceImpl implements CourseService {
 
+    @Autowired
     private CourseRepository courseRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    @Autowired
+    private CourseStartedRepository courseStartedRepository;
+
+    @Autowired
+    private LessonCompletedRepository lessonCompletedRepository;
+
+    public CourseServiceImpl() {
+
+    }
+
+    @Override
+    public float calculateCourseAverageMark(Long courseId) {
+        List<UserCourseStarted> marks = this.courseStartedRepository.findUserCourseStartedByCourseIdAndUserCourseStartedReviewMarkIsNotNull(courseId);
+        int sumOfMarks = 0;
+        for(UserCourseStarted mark: marks) {
+            sumOfMarks += mark.getUserCourseStartedReviewMark();
+        }
+        return (float)sumOfMarks / (float)marks.size();
     }
 
     @Override
@@ -28,11 +48,23 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO getCourseBySlug(String slug) {
+    public CourseDTO getCourseBySlug(String slug, Long userId) {
         Course course = this.courseRepository.findCourseByCourseSlug(slug);
         CourseDTO courseDTO = new CourseDTO();
         BeanUtils.copyProperties(course, courseDTO);
         courseDTO.setSections(course.getSectionList());
+        courseDTO.setCourseAverageMark(this.calculateCourseAverageMark(courseDTO.getCourseId()));
+
+        UserCourseStarted userCourseStarted = this.courseStartedRepository.getCourseStartedByCourseIdAndUserId(course.getCourseId(), userId);
+        List<LessonCompleted> lessonsCompleted = this.lessonCompletedRepository.findAllLessonsOfStartedCourseUserHasCompleted(userCourseStarted.getUserCourseStartedId());
+
+        courseDTO.setLessonsCompletedCount(lessonsCompleted.size());
+        int lessonsCount = 0;
+        for(Section section: course.getSectionList()) {
+            lessonsCount+=section.getLessonList().size();
+        }
+        courseDTO.setLessonsCount(lessonsCount);
+
         return courseDTO;
     }
 

@@ -1,11 +1,16 @@
 package com.example.demo.dtos;
 
 import com.example.demo.entities.*;
+import com.example.demo.service.CourseService;
+import com.example.demo.service.CourseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDTO {
+
+    private CourseServiceImpl courseService;
 
     private String courseName;
     private Long courseId;
@@ -13,6 +18,9 @@ public class CourseDTO {
     private String courseSlug;
     private String courseDescription;
     private List<Section> sectionList;
+    private float courseAverageMark;
+    private int lessonsCount;
+    private int lessonsCompletedCount;
 
     public CourseDTO() {
 
@@ -23,6 +31,38 @@ public class CourseDTO {
         this.courseId = courseId;
         this.courseImage = courseImage;
         this.courseSlug = courseSlug;
+    }
+
+    public int getLessonsCompletedCount() {
+        return lessonsCompletedCount;
+    }
+
+    public void setLessonsCompletedCount(int lessonsCompletedCount) {
+        this.lessonsCompletedCount = lessonsCompletedCount;
+    }
+
+    public CourseServiceImpl getCourseService() {
+        return courseService;
+    }
+
+    public void setCourseService(CourseServiceImpl courseService) {
+        this.courseService = courseService;
+    }
+
+    public int getLessonsCount() {
+        return lessonsCount;
+    }
+
+    public void setLessonsCount(int lessonsCount) {
+        this.lessonsCount = lessonsCount;
+    }
+
+    public double getCourseAverageMark() {
+        return courseAverageMark;
+    }
+
+    public void setCourseAverageMark(float courseAverageMark) {
+        this.courseAverageMark = courseAverageMark;
     }
 
     public String getCourseDescription() {

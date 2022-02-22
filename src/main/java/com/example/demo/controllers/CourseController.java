@@ -40,8 +40,8 @@ public class CourseController {
     }
 
     @GetMapping(value = "/course/details/{courseSlug}")
-    public CourseDTO getCourseDetails(@PathVariable(required = false, name = "courseSlug") String courseSlug) {
-        return this.courseService.getCourseBySlug(courseSlug);
+    public CourseDTO getCourseDetails(@PathVariable(required = false, name = "courseSlug") String courseSlug, Principal principal) {
+        return this.courseService.getCourseBySlug(courseSlug, this.userService.getUser(principal.getName()).getId());
     }
 
     private List<CourseDTO> formListOfCourses(List<Course> courses) {
