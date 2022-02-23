@@ -8,6 +8,15 @@ public class UserDTO extends User implements Serializable {
 
     private String currentPassword;
 
+    public UserDTO() {
+
+    }
+
+    public UserDTO(String name, String lastName) {
+        this.setName(name);
+        this.setLastName(lastName);
+    }
+
     public String getCurrentPassword() {
         return currentPassword;
     }

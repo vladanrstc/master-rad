@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dtos.CourseDTO;
+import com.example.demo.dtos.CourseReviewDTO;
+import com.example.demo.dtos.UserDTO;
 import com.example.demo.entities.*;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseStartedRepository;
@@ -9,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,6 +67,20 @@ public class CourseServiceImpl implements CourseService {
             lessonsCount+=section.getLessonList().size();
         }
         courseDTO.setLessonsCount(lessonsCount);
+
+        List<UserCourseStarted> reviews = this.courseStartedRepository.findUserCourseStartedByCourseIdAndUserCourseStartedReviewMarkIsNotNull(course.getCourseId());
+        List<CourseReviewDTO> courseReviewDtos = new ArrayList<>();
+
+        for(UserCourseStarted review: reviews) {
+            CourseReviewDTO dto = new CourseReviewDTO();
+            BeanUtils.copyProperties(review, dto);
+            
+            courseReviewDtos.add(dto);
+            dto.setUser(new UserDTO(review.getUserId().getName(), review.getUserId().getLastName()));
+        }
+
+        courseDTO.setReviews(courseReviewDtos);
+        courseDTO.setUserNote(userCourseStarted.getUserCourseStartedNote());
 
         return courseDTO;
     }

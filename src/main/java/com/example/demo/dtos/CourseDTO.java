@@ -21,6 +21,8 @@ public class CourseDTO {
     private float courseAverageMark;
     private int lessonsCount;
     private int lessonsCompletedCount;
+    private List<CourseReviewDTO> reviews;
+    private String userNote;
 
     public CourseDTO() {
 
@@ -31,6 +33,22 @@ public class CourseDTO {
         this.courseId = courseId;
         this.courseImage = courseImage;
         this.courseSlug = courseSlug;
+    }
+
+    public String getUserNote() {
+        return userNote;
+    }
+
+    public void setUserNote(String userNote) {
+        this.userNote = userNote;
+    }
+
+    public List<CourseReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<CourseReviewDTO> reviews) {
+        this.reviews = reviews;
     }
 
     public int getLessonsCompletedCount() {
