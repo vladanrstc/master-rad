@@ -5,29 +5,13 @@
  */
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.example.demo.enums.QuestionTypes;
+import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  *
@@ -72,7 +56,33 @@ public class Question implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
     private List<TestResult> testResultList;
 
+    @Transient
+    private Enum<QuestionTypes> questionType;
+
     public Question() {
+
+    }
+
+    public Enum<QuestionTypes> getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(Enum<QuestionTypes> questionType) {
+        this.questionType = questionType;
+    }
+
+    public void calculateQuestionType() {
+        int numOfCorrectAnswers = 0;
+        for(Answer answer: this.getAnswerList()) {
+            if(answer.getAnswerTrue()) {
+                numOfCorrectAnswers++;
+            }
+        }
+        if(numOfCorrectAnswers > 1) {
+            this.questionType = QuestionTypes.MULTIPLE;
+        } else {
+            this.questionType = QuestionTypes.SINGLE;
+        }
     }
 
     public Question(Long questionId) {

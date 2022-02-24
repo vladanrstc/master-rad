@@ -74,7 +74,7 @@ public class CourseServiceImpl implements CourseService {
         for(UserCourseStarted review: reviews) {
             CourseReviewDTO dto = new CourseReviewDTO();
             BeanUtils.copyProperties(review, dto);
-            
+
             courseReviewDtos.add(dto);
             dto.setUser(new UserDTO(review.getUserId().getName(), review.getUserId().getLastName()));
         }
