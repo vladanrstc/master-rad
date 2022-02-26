@@ -79,7 +79,7 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<UserCourseStarted> userCourseStartedList;
 
     public User() {

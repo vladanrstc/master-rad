@@ -24,6 +24,7 @@ import javax.persistence.*;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "questionId", scope = Question.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,7 +58,7 @@ public class Question implements Serializable {
     private List<TestResult> testResultList;
 
     @Transient
-    private Enum<QuestionTypes> questionType;
+    private Enum<QuestionTypes> questionType = QuestionTypes.SINGLE;
 
     public Question() {
 

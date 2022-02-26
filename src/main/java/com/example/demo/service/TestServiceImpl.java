@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dtos.QuestionDTO;
+import com.example.demo.dtos.TestResultDTO;
 import com.example.demo.entities.Answer;
 import com.example.demo.entities.Question;
 import com.example.demo.entities.Test;
@@ -44,21 +44,19 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public String checkTestResults(Map<String, ArrayList<Long>> answers) {
-
+    public List<TestResultDTO> checkTestResults(Map<String, ArrayList<Long>> answers) {
+        List<TestResultDTO> results = new ArrayList<>();
         for (Map.Entry<String, ArrayList<Long>> entry : answers.entrySet()) {
             String questionId = entry.getKey();
             ArrayList<Long> answerIds = entry.getValue();
-            boolean areAnswersCorrect = this.checkQuestionAnswers(questionId, answerIds);
-            System.out.println(areAnswersCorrect);
+            Question question = this.questionRepository.getById(Long.parseLong(questionId));
+            results.add(new TestResultDTO(this.checkQuestionAnswers(question, answerIds), question));
         }
-
-        return "aaa";
-
+        return results;
     }
 
-    private boolean checkQuestionAnswers(String questionId, ArrayList<Long> answerIds) {
-        List<Answer> allQuestionsCorrectAnswers = this.questionRepository.findById(Long.parseLong(questionId)).get().getAnswerList().stream().filter(answer -> answer.getAnswerTrue()).collect(Collectors.toList());
+    private boolean checkQuestionAnswers(Question question, ArrayList<Long> answerIds) {
+        List<Answer> allQuestionsCorrectAnswers = question.getAnswerList().stream().filter(answer -> answer.getAnswerTrue()).collect(Collectors.toList());
         List<Answer> givenAnswers = this.answerRepository.findAllById(answerIds);
         return allQuestionsCorrectAnswers.equals(givenAnswers);
     }
