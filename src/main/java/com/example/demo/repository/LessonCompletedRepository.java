@@ -15,4 +15,8 @@ public interface LessonCompletedRepository extends JpaRepository<LessonCompleted
     @Query(value = "SELECT * FROM lessons_completed WHERE course_started_id = :userCourseStartedId", nativeQuery = true)
     List<LessonCompleted> findAllLessonsOfStartedCourseUserHasCompleted(@Param("userCourseStartedId") Long userCourseStartedId);
 
+    @Query(value = "SELECT * FROM lessons_completed WHERE course_started_id = :userCourseStartedId AND lesson_id = :lessonId", nativeQuery = true)
+    LessonCompleted findAllLessonsOfUserStartedIdAndLessonId(@Param("userCourseStartedId") Long userCourseStartedId, @Param("lessonId") Long lessonId);
+
+
 }

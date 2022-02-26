@@ -26,6 +26,9 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private LessonCompletedRepository lessonCompletedRepository;
 
+    @Autowired
+    private LessonService lessonService;
+
     public CourseServiceImpl() {
 
     }
@@ -65,6 +68,9 @@ public class CourseServiceImpl implements CourseService {
         int lessonsCount = 0;
         for(Section section: course.getSectionList()) {
             lessonsCount+=section.getLessonList().size();
+            for(Lesson lesson: section.getLessonList()) {
+                lesson.setLessonCompleted(this.lessonService.checkIfUserCompletedLesson(course.getCourseId(), userId, lesson.getLessonId()));
+            }
         }
         courseDTO.setLessonsCount(lessonsCount);
 

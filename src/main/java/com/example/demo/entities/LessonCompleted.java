@@ -75,6 +75,13 @@ public class LessonCompleted implements Serializable {
     public LessonCompleted() {
     }
 
+    public LessonCompleted(boolean lessonCompletedFlag, Lesson lesson, UserCourseStarted courseStarted) {
+        this.lessonCompletedFlag = lessonCompletedFlag;
+        this.lessonId = lesson;
+        this.courseStartedId = courseStarted;
+
+    }
+
     public LessonCompleted(Long lessonCompletedId) {
         this.lessonCompletedId = lessonCompletedId;
     }

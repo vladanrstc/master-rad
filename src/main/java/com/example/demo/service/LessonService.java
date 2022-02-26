@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface LessonService {
     List<LessonEntity> getLastThreeVideos();
+    boolean checkIfUserCompletedLesson(long courseId, long userId, long lessonId);
 }
