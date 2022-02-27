@@ -36,4 +36,15 @@ public class CourseStartServiceImpl implements CourseStartService {
         this.courseStartedRepository.save(userCourseStarted);
         return userCourseStarted;
     }
+
+    @Override
+    public List<UserCourseStarted> getCourseNotes(long courseId) {
+        return this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedNoteNotNull(this.courseRepository.findById(courseId).get());
+    }
+
+    @Override
+    public List<UserCourseStarted> getCourseReviews(long courseId) {
+        return this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedReviewMarkNotNull(this.courseRepository.findById(courseId).get());
+
+    }
 }

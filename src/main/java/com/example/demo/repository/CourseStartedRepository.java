@@ -19,4 +19,9 @@ public interface CourseStartedRepository extends JpaRepository<UserCourseStarted
     @Query(value = "SELECT * FROM user_courses_started WHERE course_id = :courseId AND user_id = :userId", nativeQuery = true)
     UserCourseStarted getCourseStartedByCourseIdAndUserId(@Param("courseId") Long courseId, @Param("userId") Long userId);
 
+    List<UserCourseStarted> findAllByCourseIdAndUserCourseStartedReviewMarkNotNull(@Param("courseId") Course course);
+
+    List<UserCourseStarted> findAllByCourseIdAndUserCourseStartedNoteNotNull(@Param("courseId") Course course);
+
+
 }

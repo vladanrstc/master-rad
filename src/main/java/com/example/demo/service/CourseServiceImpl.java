@@ -44,6 +44,17 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseDTO> getAllCourses() {
+        List<CourseDTO> dtos = new ArrayList<>();
+        for(Course course: this.courseRepository.findAll()) {
+            CourseDTO courseDTO = new CourseDTO();
+            BeanUtils.copyProperties(course, courseDTO);
+            dtos.add(courseDTO);
+        }
+        return dtos;
+    }
+
+    @Override
     public List<Course> getCoursesUserEnrolledIn(Long userId) {
         return this.courseRepository.coursesUserEnrolledIn(userId);
     }
