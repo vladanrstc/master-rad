@@ -1,12 +1,16 @@
 package com.example.demo.service;
 
+import com.example.demo.dtos.UserCourseStartedDTO;
+import com.example.demo.dtos.UserDTO;
 import com.example.demo.entities.UserCourseStarted;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseStartedRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,13 +42,24 @@ public class CourseStartServiceImpl implements CourseStartService {
     }
 
     @Override
-    public List<UserCourseStarted> getCourseNotes(long courseId) {
-        return this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedNoteNotNull(this.courseRepository.findById(courseId).get());
+    public List<UserCourseStartedDTO> getCourseNotes(long courseId) {
+        return this.prepareUserCourseStartedData(this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedNoteNotNull(this.courseRepository.findById(courseId).get()));
     }
 
     @Override
-    public List<UserCourseStarted> getCourseReviews(long courseId) {
-        return this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedReviewMarkNotNull(this.courseRepository.findById(courseId).get());
-
+    public List<UserCourseStartedDTO> getCourseReviews(long courseId) {
+        return this.prepareUserCourseStartedData(this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedReviewMarkNotNull(this.courseRepository.findById(courseId).get()));
     }
+
+    private List<UserCourseStartedDTO> prepareUserCourseStartedData(List<UserCourseStarted> givenArrayOfUserCoursesStarted) {
+        List<UserCourseStartedDTO> userCourseStartedDTOS = new ArrayList<>();
+        for(UserCourseStarted userCourseStarted: givenArrayOfUserCoursesStarted) {
+            UserCourseStartedDTO dto = new UserCourseStartedDTO();
+            BeanUtils.copyProperties(userCourseStarted, dto);
+            dto.setUser(new UserDTO(userCourseStarted.getUserId().getName(), userCourseStarted.getUserId().getEmail(), userCourseStarted.getUserId().getLastName()));
+            userCourseStartedDTOS.add(dto);
+        }
+        return userCourseStartedDTOS;
+    }
+
 }

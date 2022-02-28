@@ -12,6 +12,12 @@ public class UserDTO extends User implements Serializable {
 
     }
 
+    public UserDTO(String name, String lastName, String email) {
+        this.setName(name);
+        this.setLastName(lastName);
+        this.setEmail(email);
+    }
+
     public UserDTO(String name, String lastName) {
         this.setName(name);
         this.setLastName(lastName);

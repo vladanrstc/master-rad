@@ -1,6 +1,7 @@
 package com.example.demo.controllers.admin;
 
 import com.example.demo.dtos.CourseDTO;
+import com.example.demo.dtos.UserCourseStartedDTO;
 import com.example.demo.entities.UserCourseStarted;
 import com.example.demo.service.CourseStartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class AdminReviewController {
     private CourseStartService courseStartService;
 
     @GetMapping(value = "/reviews/course/{courseId}")
-    public List<UserCourseStarted> getAllCourseReviews(@PathVariable(required = false, name = "courseId") long courseId) {
+    public List<UserCourseStartedDTO> getAllCourseReviews(@PathVariable(required = false, name = "courseId") long courseId) {
         return this.courseStartService.getCourseReviews(courseId);
     }
 
