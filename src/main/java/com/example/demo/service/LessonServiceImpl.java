@@ -8,6 +8,7 @@ import com.example.demo.entities.UserCourseStarted;
 import com.example.demo.repository.CourseStartedRepository;
 import com.example.demo.repository.LessonCompletedRepository;
 import com.example.demo.repository.LessonRepository;
+import com.example.demo.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,9 @@ public class LessonServiceImpl implements LessonService {
 
     @Autowired
     private LessonCompletedRepository lessonCompletedRepository;
+
+    @Autowired
+    private SectionRepository sectionRepository;
 
     @Override
     public List<LessonEntity> getLastThreeVideos() {
@@ -51,6 +55,17 @@ public class LessonServiceImpl implements LessonService {
 
         return false;
 
+    }
+
+    @Override
+    public List<Lesson> getLessonsForSection(long sectionId) {
+        List<Lesson> lessons = this.lessonRepository.findAllByLessonSectionId(this.sectionRepository.findById(sectionId).get());
+        lessons.forEach(lesson -> {
+            lesson.setLessonCompletedList(null);
+            lesson.setLessonTestId(null);
+            lesson.setLessonSectionId(null);
+        });
+        return lessons;
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entities.Lesson;
+import com.example.demo.entities.Section;
 import com.example.demo.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,6 @@ import java.util.List;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     List<Lesson> getTop3ByLessonVideoLinkNotNull();
+    List<Lesson> findAllByLessonSectionId(Section section);
+
 }
