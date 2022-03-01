@@ -51,6 +51,31 @@ public class CourseStartServiceImpl implements CourseStartService {
         return this.prepareUserCourseStartedData(this.courseStartedRepository.findAllByCourseIdAndUserCourseStartedReviewMarkNotNull(this.courseRepository.findById(courseId).get()));
     }
 
+    @Override
+    public boolean deleteReview(long userCourseStartedId) {
+        try {
+            UserCourseStarted userCourseStarted = this.courseStartedRepository.findById(userCourseStartedId).get();
+            userCourseStarted.setUserCourseStartedReviewText(null);
+            userCourseStarted.setUserCourseStartedReviewMark(null);
+            this.courseStartedRepository.save(userCourseStarted);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteNote(long userCourseStartedId) {
+        try {
+            UserCourseStarted userCourseStarted = this.courseStartedRepository.findById(userCourseStartedId).get();
+            userCourseStarted.setUserCourseStartedNote(null);
+            this.courseStartedRepository.save(userCourseStarted);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private List<UserCourseStartedDTO> prepareUserCourseStartedData(List<UserCourseStarted> givenArrayOfUserCoursesStarted) {
         List<UserCourseStartedDTO> userCourseStartedDTOS = new ArrayList<>();
         for(UserCourseStarted userCourseStarted: givenArrayOfUserCoursesStarted) {

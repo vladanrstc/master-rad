@@ -55,6 +55,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public boolean deleteCourse(long course) {
+        try {
+            this.courseRepository.delete(this.courseRepository.findById(course).get());
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
+
+    @Override
     public List<Course> getCoursesUserEnrolledIn(Long userId) {
         return this.courseRepository.coursesUserEnrolledIn(userId);
     }

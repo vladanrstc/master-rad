@@ -13,4 +13,5 @@ public interface CourseService {
     CourseDTO getCourseBySlug(String courseSlug, Long userId);
     float calculateCourseAverageMark(Long courseId);
     List<CourseDTO> getAllCourses();
+    boolean deleteCourse(long course);
 }

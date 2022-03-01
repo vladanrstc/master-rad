@@ -11,5 +11,7 @@ public interface CourseStartService {
     UserCourseStarted updateUserCourseReview(int rating, String review, String course, long userId);
     List<UserCourseStartedDTO> getCourseNotes(long courseId);
     List<UserCourseStartedDTO> getCourseReviews(long courseId);
+    boolean deleteReview(long userCourseStartedId);
+    boolean deleteNote(long userCourseStartedId);
 
 }
