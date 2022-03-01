@@ -6,6 +6,7 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -38,6 +39,7 @@ import javax.persistence.TemporalType;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "courseId", scope = Course.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;

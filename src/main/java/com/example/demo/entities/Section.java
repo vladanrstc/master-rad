@@ -5,10 +5,7 @@
  */
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -40,6 +37,7 @@ import javax.persistence.TemporalType;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "sectionId", scope = Section.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Section implements Serializable {
 
     private static final long serialVersionUID = 1L;
