@@ -65,6 +65,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Course createNewCourse(Course course) {
+        return this.courseRepository.save(course);
+    }
+
+    @Override
     public List<Course> getCoursesUserEnrolledIn(Long userId) {
         return this.courseRepository.coursesUserEnrolledIn(userId);
     }

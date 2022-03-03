@@ -14,4 +14,5 @@ public interface CourseService {
     float calculateCourseAverageMark(Long courseId);
     List<CourseDTO> getAllCourses();
     boolean deleteCourse(long course);
+    Course createNewCourse(Course course);
 }
