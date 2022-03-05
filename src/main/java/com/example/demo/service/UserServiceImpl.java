@@ -69,8 +69,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
+    @Override
+    public User getUser(long userId) {
+        return this.userRepository.getById(userId);
+    }
+
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> getAllActiveRegularUsers() {
+        return this.userRepository.getAllByDeletedAtIsNullAndRoleLike("USER");
+    }
+
+    @Override
+    public List<User> getAllBannedUsers() {
+        return this.userRepository.getAllByDeletedAtIsNotNull();
     }
 
 }
