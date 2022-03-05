@@ -25,7 +25,6 @@ public class FileStorageServiceImpl implements FileStorageService {
     public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) throws Exception {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
-
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {

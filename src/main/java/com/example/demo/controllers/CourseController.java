@@ -51,22 +51,44 @@ public class CourseController {
     private FileStorageService fileStorageService;
 
     @PostMapping(path = "/courses", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public Course uploadFile(@RequestParam String courseName, @RequestParam String courseDescription, @RequestPart("courseImage") MultipartFile courseImage) {
+    public Course createNewCourse(
+            @RequestParam String courseName,
+            @RequestParam String courseDescription,
+            @RequestPart("courseImage") MultipartFile courseImage) {
 
         try {
             String fileName = fileStorageService.storeFile(courseImage);
-
-            /*String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
-                    .path(fileName)
-                    .toUriString();*/
 
             Course newCourse = new Course();
             newCourse.setCourseName(courseName);
             newCourse.setCourseDescription(courseDescription);
             newCourse.setCourseImage("http://localhost/vladanristicjava/uploads/" + fileName);
-            return this.courseService.createNewCourse(newCourse);
+            return this.courseService.saveCourse(newCourse);
 
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @PostMapping(path = "/courses/update/{courseId}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Course updateCourse(
+            @PathVariable(required = false, name = "courseId") Long courseId,
+            @RequestParam String courseName,
+            @RequestParam String courseDescription,
+            @RequestPart(required = false, name = "courseImage") MultipartFile courseImage) {
+
+        try {
+            Course existingCourse = this.courseService.getCourseById(courseId);
+
+            if(courseImage != null) {
+                String fileName = fileStorageService.storeFile(courseImage);
+                existingCourse.setCourseImage("http://localhost/vladanristicjava/uploads/" + fileName);
+            }
+
+            existingCourse.setCourseName(courseName);
+            existingCourse.setCourseDescription(courseDescription);
+            return this.courseService.saveCourse(existingCourse);
         } catch (Exception e) {
             return null;
         }

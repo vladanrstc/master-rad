@@ -65,7 +65,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course createNewCourse(Course course) {
+    public Course saveCourse(Course course) {
         return this.courseRepository.save(course);
     }
 
@@ -115,6 +115,11 @@ public class CourseServiceImpl implements CourseService {
         courseDTO.setUserNote(userCourseStarted.getUserCourseStartedNote());
 
         return courseDTO;
+    }
+
+    @Override
+    public Course getCourseById(Long courseId) {
+        return this.courseRepository.getById(courseId);
     }
 
 }
