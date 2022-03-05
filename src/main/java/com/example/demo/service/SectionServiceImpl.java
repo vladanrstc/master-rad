@@ -67,4 +67,9 @@ public class SectionServiceImpl implements SectionService {
         return currentSection;
     }
 
+    @Override
+    public Section getSectionById(long sectionId) {
+        return this.sectionRepository.getById(sectionId);
+    }
+
 }

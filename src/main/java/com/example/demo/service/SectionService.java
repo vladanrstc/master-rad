@@ -12,5 +12,6 @@ public interface SectionService {
     Section addNewSection(Map<String, String> section);
     boolean removeSection(long sectionId);
     Section updateSection(Map<String, String> section, long sectionId);
+    Section getSectionById(long sectionId);
 
 }

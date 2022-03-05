@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.entities.Course;
 import com.example.demo.entities.Lesson;
 import com.example.demo.entities.Section;
 import com.example.demo.entities.User;
@@ -13,6 +14,7 @@ import java.util.List;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     List<Lesson> getTop3ByLessonVideoLinkNotNull();
-    List<Lesson> findAllByLessonSectionId(Section section);
+    List<Lesson> findAllByLessonSectionIdOrderByLessonOrderAsc(Section section);
+    Lesson findFirstByLessonSectionIdOrderByLessonOrderDesc(Section section);
 
 }

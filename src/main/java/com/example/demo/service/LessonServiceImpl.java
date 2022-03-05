@@ -4,6 +4,7 @@ import com.example.demo.dtos.LessonDTO;
 import com.example.demo.dtos.LessonEntity;
 import com.example.demo.entities.Lesson;
 import com.example.demo.entities.LessonCompleted;
+import com.example.demo.entities.Section;
 import com.example.demo.entities.UserCourseStarted;
 import com.example.demo.repository.CourseStartedRepository;
 import com.example.demo.repository.LessonCompletedRepository;
@@ -59,7 +60,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<Lesson> getLessonsForSection(long sectionId) {
-        List<Lesson> lessons = this.lessonRepository.findAllByLessonSectionId(this.sectionRepository.findById(sectionId).get());
+        List<Lesson> lessons = this.lessonRepository.findAllByLessonSectionIdOrderByLessonOrderAsc(this.sectionRepository.findById(sectionId).get());
         lessons.forEach(lesson -> {
             lesson.setLessonCompletedList(null);
             lesson.setLessonTestId(null);
@@ -68,5 +69,53 @@ public class LessonServiceImpl implements LessonService {
         return lessons;
     }
 
+    @Override
+    public Lesson createNewLesson(Lesson lesson) {
+        lesson.setLessonOrder(this.lessonRepository.findFirstByLessonSectionIdOrderByLessonOrderDesc(lesson.getLessonSectionId()).getLessonOrder() + 1);
+        return this.lessonRepository.save(lesson);
+    }
+
+    @Override
+    public Lesson saveLesson(Lesson lesson) {
+        return this.lessonRepository.save(lesson);
+    }
+
+    @Override
+    public Lesson getLessonById(long lessonId) {
+        return this.lessonRepository.getById(lessonId);
+    }
+
+    @Override
+    public Lesson updateLesson(Lesson lesson) {
+        return this.lessonRepository.save(lesson);
+    }
+
+    @Override
+    public Lesson updateLessonPublishedStatus(Lesson lesson) {
+        lesson.setLessonPublished(!lesson.getLessonPublished());
+        return this.lessonRepository.save(lesson);
+    }
+
+    @Override
+    public boolean removeLesson(Lesson lesson) {
+        try {
+            this.lessonRepository.delete(lesson);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Lesson> updateLessonsOrder(List<Lesson> lessons) {
+        int counter = 1;
+        for(Lesson lesson: lessons) {
+            Lesson currentLesson = this.lessonRepository.getById(lesson.getLessonId());
+            currentLesson.setLessonOrder(counter);
+            this.lessonRepository.save(currentLesson);
+            counter++;
+        }
+        return lessons;
+    }
 
 }
