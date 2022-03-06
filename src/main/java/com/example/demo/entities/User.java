@@ -25,6 +25,7 @@ import javax.persistence.*;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id", scope = User.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;

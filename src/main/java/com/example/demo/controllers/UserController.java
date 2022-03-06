@@ -21,7 +21,7 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = this.userService.getUser(auth.getName());
         try {
-            return new ResponseEntity<>(this.userService.updateLoggedUser(currentUser, user), HttpStatus.OK);
+            return new ResponseEntity<>(this.userService.updateWholeUser(currentUser, user), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }

@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
-    List<User> getAllByDeletedAtIsNullAndRoleLike(String role);
+    List<User> getAllByDeletedAtIsNullAndRoleLikeOrRoleLike(String role1, String role2);
     List<User> getAllByDeletedAtIsNotNull();
 }

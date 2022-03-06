@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateLoggedUser(User oldUser, User newUser) throws Exception {
+    public User updateWholeUser(User oldUser, User newUser) throws Exception {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         oldUser.setEmail(newUser.getEmail());
         oldUser.setName(newUser.getName());
@@ -60,7 +60,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User updateUserAsAdmin(User currentUser, User updatedUser) throws Exception {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        updatedUser.setEmail(currentUser.getEmail());
+        updatedUser.setName(currentUser.getName());
+        updatedUser.setLastName(currentUser.getLastName());
+        updatedUser.setRole(currentUser.getRole());
+
+        if(!currentUser.getPassword().isEmpty()) {
+            updatedUser.setPassword(passwordEncoder.encode(currentUser.getPassword()));
+        }
+
+        return this.userRepository.save(updatedUser);
+    }
+
+    @Override
     public User saveUser(User user) {
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public User createNewUser(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return this.userRepository.save(user);
     }
 
@@ -80,12 +102,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> getAllActiveRegularUsers() {
-        return this.userRepository.getAllByDeletedAtIsNullAndRoleLike("USER");
+        return this.userRepository.getAllByDeletedAtIsNullAndRoleLikeOrRoleLike("USER", "ADMIN");
     }
 
     @Override
     public List<User> getAllBannedUsers() {
         return this.userRepository.getAllByDeletedAtIsNotNull();
+    }
+
+    @Override
+    public boolean deleteUser(long userId) {
+        try {
+            this.userRepository.delete(this.userRepository.getById(userId));
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
+
+    @Override
+    public User unbanUser(long userId) {
+        User currentUser = this.userRepository.getById(userId);
+        currentUser.setDeletedAt(null);
+        this.userRepository.save(currentUser);
+        return currentUser;
     }
 
 }
