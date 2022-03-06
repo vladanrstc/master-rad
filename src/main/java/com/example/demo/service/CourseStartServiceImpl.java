@@ -5,6 +5,7 @@ import com.example.demo.dtos.UserDTO;
 import com.example.demo.entities.UserCourseStarted;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseStartedRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,9 @@ public class CourseStartServiceImpl implements CourseStartService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public UserCourseStarted updateUserCourseNotes(String notes, String courseSlug, long userId) {
@@ -74,6 +78,16 @@ public class CourseStartServiceImpl implements CourseStartService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public UserCourseStarted enrollUserInCourse(long userId, long courseId) {
+        UserCourseStarted userCourseStarted = new UserCourseStarted();
+        userCourseStarted.setCourseId(this.courseRepository.getById(courseId));
+        userCourseStarted.setUserId(this.userRepository.getById(userId));
+        System.out.println(userId);
+        System.out.println(courseId);
+        return this.courseStartedRepository.save(userCourseStarted);
     }
 
     private List<UserCourseStartedDTO> prepareUserCourseStartedData(List<UserCourseStarted> givenArrayOfUserCoursesStarted) {

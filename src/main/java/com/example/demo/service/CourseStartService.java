@@ -13,5 +13,6 @@ public interface CourseStartService {
     List<UserCourseStartedDTO> getCourseReviews(long courseId);
     boolean deleteReview(long userCourseStartedId);
     boolean deleteNote(long userCourseStartedId);
+    UserCourseStarted enrollUserInCourse(long userId, long courseId);
 
 }
