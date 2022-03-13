@@ -19,7 +19,7 @@ import javax.persistence.*;
  * @author Vladan
  */
 @Entity
-@Table(name = "users", catalog = "vladanristic", schema = "")
+@Table(name = "users")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
 @JsonIdentityInfo(

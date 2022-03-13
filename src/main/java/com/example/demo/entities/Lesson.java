@@ -23,7 +23,7 @@ import javax.persistence.*;
  */
 @Entity
 @Component
-@Table(name = "lessons", catalog = "vladanristic", schema = "")
+@Table(name = "lessons")
 @NamedQueries({
     @NamedQuery(name = "Lesson.findAll", query = "SELECT l FROM Lesson l")})
 @JsonIdentityInfo(

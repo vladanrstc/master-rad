@@ -17,7 +17,7 @@ import java.util.List;
  * @author Vladan
  */
 @Entity
-@Table(name = "user_courses_started", catalog = "vladanristic", schema = "")
+@Table(name = "user_courses_started")
 @NamedQueries({
     @NamedQuery(name = "UserCourseStarted.findAll", query = "SELECT u FROM UserCourseStarted u")})
 @JsonIdentityInfo(

@@ -34,7 +34,7 @@ import javax.persistence.TemporalType;
  * @author Vladan
  */
 @Entity
-@Table(name = "lessons_completed", catalog = "vladanristic", schema = "")
+@Table(name = "lessons_completed")
 @NamedQueries({
     @NamedQuery(name = "LessonCompleted.findAll", query = "SELECT l FROM LessonCompleted l")})
 @JsonIdentityInfo(
