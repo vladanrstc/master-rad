@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and();
         http.csrf().disable().authorizeRequests().anyRequest().permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeHttpRequests().antMatchers("/register*").permitAll(); // allow all of these paths
+        http.authorizeHttpRequests().antMatchers("/register*", "/home/videos", "/courses/all").permitAll(); // allow all of these paths
         //http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/svi").hasAnyAuthority("user");
         //http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/samoadmin").hasAnyAuthority("admin");
         http.authorizeHttpRequests().anyRequest().authenticated(); //

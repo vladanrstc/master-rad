@@ -22,7 +22,6 @@ public class HomeController {
     @GetMapping(value = "/home/videos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity homeVideos() {
         List<LessonEntity> lessons = this.lessonService.getLastThreeVideos();
-        System.out.println(lessons.size());
         return new ResponseEntity(lessons, HttpStatus.OK);
     }
 

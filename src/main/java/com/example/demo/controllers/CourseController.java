@@ -32,6 +32,11 @@ public class CourseController {
         return this.courseStartService.enrollUserInCourse(this.userService.getUser(principal.getName()).getId(), course.getCourseId());
     }
 
+    @GetMapping(value = "/courses/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CourseDTO> getAllCourses() {
+        return courseService.getAllCourses();
+    }
+
     @GetMapping(value = "/courses/started", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CourseDTO> userCoursesStarted(Principal principal) {
         return this.formListOfCourses(courseService.getCoursesUserEnrolledIn(this.userService.getUser(principal.getName()).getId()));

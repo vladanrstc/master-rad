@@ -37,8 +37,6 @@ public class CourseStartServiceImpl implements CourseStartService {
     @Override
     public UserCourseStarted updateUserCourseReview(int rating, String review, String courseSlug, long userId) {
         UserCourseStarted userCourseStarted = this.courseStartedRepository.getCourseStartedByCourseIdAndUserId(this.courseRepository.findCourseByCourseSlug(courseSlug).getCourseId(), userId);
-        System.out.println(rating);
-        System.out.println(review);
         userCourseStarted.setUserCourseStartedReviewMark(rating);
         userCourseStarted.setUserCourseStartedReviewText(review);
         this.courseStartedRepository.save(userCourseStarted);
@@ -85,8 +83,6 @@ public class CourseStartServiceImpl implements CourseStartService {
         UserCourseStarted userCourseStarted = new UserCourseStarted();
         userCourseStarted.setCourseId(this.courseRepository.getById(courseId));
         userCourseStarted.setUserId(this.userRepository.getById(userId));
-        System.out.println(userId);
-        System.out.println(courseId);
         return this.courseStartedRepository.save(userCourseStarted);
     }
 
