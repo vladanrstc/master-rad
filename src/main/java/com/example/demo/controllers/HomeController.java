@@ -1,8 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dtos.LessonEntity;
-import com.example.demo.entities.Lesson;
-import com.example.demo.entities.User;
 import com.example.demo.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

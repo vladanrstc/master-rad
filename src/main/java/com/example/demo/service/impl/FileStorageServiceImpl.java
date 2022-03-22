@@ -1,6 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.pojo.FileStorageProperties;
+import com.example.demo.service.FileStorageService;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.MalformedURLException;

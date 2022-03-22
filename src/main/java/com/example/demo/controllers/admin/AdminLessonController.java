@@ -1,11 +1,7 @@
 package com.example.demo.controllers.admin;
 
 import com.example.demo.dtos.LessonOrderRequest;
-import com.example.demo.dtos.SectionOrderRequest;
-import com.example.demo.dtos.UserCourseStartedDTO;
-import com.example.demo.entities.Course;
 import com.example.demo.entities.Lesson;
-import com.example.demo.entities.Section;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.LessonService;
 import com.example.demo.service.SectionService;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class AdminLessonController {

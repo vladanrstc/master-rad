@@ -1,7 +1,5 @@
 package com.example.demo.dtos;
 
-import com.example.demo.entities.User;
-
 public class UserCourseStartedDTO {
 
     private long userCourseStartedId;

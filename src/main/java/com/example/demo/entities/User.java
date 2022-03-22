@@ -6,8 +6,6 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Date;

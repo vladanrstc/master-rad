@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
 import com.example.demo.entities.LessonCompleted;
-import com.example.demo.entities.UserCourseStarted;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

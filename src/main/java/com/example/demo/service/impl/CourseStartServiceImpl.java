@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.dtos.UserCourseStartedDTO;
 import com.example.demo.dtos.UserDTO;
@@ -6,6 +6,7 @@ import com.example.demo.entities.UserCourseStarted;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseStartedRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.CourseStartService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -1,11 +1,8 @@
 package com.example.demo.dtos;
 
 import com.example.demo.entities.*;
-import com.example.demo.service.CourseService;
-import com.example.demo.service.CourseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.impl.CourseServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDTO {

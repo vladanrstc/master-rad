@@ -6,10 +6,7 @@
 package com.example.demo.entities;
 
 import com.example.demo.dtos.LessonEntity;
-import com.example.demo.repository.CourseStartedRepository;
-import com.example.demo.service.CourseStartService;
 import com.fasterxml.jackson.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

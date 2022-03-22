@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.dtos.LessonDTO;
 import com.example.demo.dtos.LessonEntity;
@@ -10,6 +10,7 @@ import com.example.demo.repository.CourseStartedRepository;
 import com.example.demo.repository.LessonCompletedRepository;
 import com.example.demo.repository.LessonRepository;
 import com.example.demo.repository.SectionRepository;
+import com.example.demo.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
 package com.example.demo.dtos;
 
 import com.example.demo.entities.Lesson;
-import com.example.demo.entities.Section;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,8 +1,6 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Lesson;
 import com.example.demo.entities.LessonCompleted;
-import com.example.demo.entities.Test;
 import com.example.demo.service.LessonCompletedService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

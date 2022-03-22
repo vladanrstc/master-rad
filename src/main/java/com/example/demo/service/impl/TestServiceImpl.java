@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.dtos.TestResultDTO;
 import com.example.demo.entities.Answer;
@@ -7,6 +7,7 @@ import com.example.demo.entities.Test;
 import com.example.demo.repository.AnswerRepository;
 import com.example.demo.repository.QuestionRepository;
 import com.example.demo.repository.TestRepository;
+import com.example.demo.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
