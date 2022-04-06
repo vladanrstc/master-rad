@@ -20,7 +20,8 @@ class CourseServiceTest {
 
     @Test
     void calculateCourseAverageMark() {
-        Assertions.assertThat(courseService.calculateCourseAverageMark(courseRepository.findCourseByCourseSlug("90165-uvod-u-php").getCourseId())).isEqualTo(3.25f);
+        Assertions.assertThat(courseService.calculateCourseAverageMark(
+                courseRepository.findCourseByCourseSlug("90165-uvod-u-php").getCourseId())).isEqualTo(3.25f);
     }
 
     @Test

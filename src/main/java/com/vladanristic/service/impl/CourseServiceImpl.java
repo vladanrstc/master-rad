@@ -7,6 +7,7 @@ import com.vladanristic.entities.*;
 import com.vladanristic.repository.CourseRepository;
 import com.vladanristic.repository.CourseStartedRepository;
 import com.vladanristic.repository.LessonCompletedRepository;
+import com.vladanristic.repository.SectionRepository;
 import com.vladanristic.service.CourseService;
 import com.vladanristic.service.LessonService;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private LessonCompletedRepository lessonCompletedRepository;
+
+    @Autowired
+    private SectionRepository sectionRepository;
 
     @Autowired
     private LessonService lessonService;
@@ -86,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = this.courseRepository.findCourseByCourseSlug(slug);
         CourseDTO courseDTO = new CourseDTO();
         BeanUtils.copyProperties(course, courseDTO);
-        courseDTO.setSections(course.getSectionList());
+        courseDTO.setSections(this.sectionRepository.findAllBySectionCourseIdOrderBySectionOrderAsc(course));
         courseDTO.setCourseAverageMark(this.calculateCourseAverageMark(courseDTO.getCourseId()));
 
         UserCourseStarted userCourseStarted = this.courseStartedRepository.getCourseStartedByCourseIdAndUserId(course.getCourseId(), userId);
@@ -94,7 +98,7 @@ public class CourseServiceImpl implements CourseService {
 
         courseDTO.setLessonsCompletedCount(lessonsCompleted.size());
         int lessonsCount = 0;
-        for(Section section: course.getSectionList()) {
+        for(Section section: this.sectionRepository.findAllBySectionCourseIdOrderBySectionOrderAsc(course)) {
             lessonsCount+=section.getLessonList().size();
             for(Lesson lesson: section.getLessonList()) {
                 lesson.setLessonCompleted(this.lessonService.checkIfUserCompletedLesson(course.getCourseId(), userId, lesson.getLessonId()));

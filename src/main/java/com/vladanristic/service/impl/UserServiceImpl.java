@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,12 +21,8 @@ import java.util.List;
 @Service @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -49,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         UserDTO newDtoUser = (UserDTO) newUser;
 
-        if(newDtoUser.getCurrentPassword() != null) {
+        if(newDtoUser.getCurrentPassword() != null && !newDtoUser.getCurrentPassword().equals("")) {
             if(passwordEncoder.matches(newDtoUser.getCurrentPassword(), oldUser.getPassword())) {
                 oldUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             } else {
@@ -126,6 +123,50 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         currentUser.setDeletedAt(null);
         this.userRepository.save(currentUser);
         return currentUser;
+    }
+
+    public boolean checkIfUserIsBanned(String email) {
+
+        String databaseName = "vladanristic";
+        String url = "jdbc:mysql://localhost:3306/vladanristic";
+        String userName = "root";
+        String password = "";
+
+        Connection con = null;
+        Statement st = null;
+        ResultSet res = null;
+        String query = "";
+
+        try {
+            // Register the jdbc driver
+            Class.forName("com.mysql.jdbc.Driver");
+            // open a connection to database
+            con = DriverManager.getConnection(url, userName,
+                    password);
+            // set auto commit false
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            // lets checkout our DB again
+            query = "Select * from users WHERE email LIKE '" + email + "' AND deleted_at IS NULL";
+            res = st.executeQuery(query);
+            while (res.next()) {
+                return true;
+            }
+            con.rollback();
+            return false;
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Driver Error");
+            e.printStackTrace();
+        }
+        catch (SQLException e) {
+            System.out.println("Connection Error");
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
 }

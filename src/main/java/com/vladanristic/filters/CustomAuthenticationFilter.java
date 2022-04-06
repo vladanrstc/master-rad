@@ -2,8 +2,10 @@ package com.vladanristic.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.vladanristic.repository.UserRepository;
 import com.vladanristic.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vladanristic.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.persistence.Query;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +30,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserService userService;
+
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -46,6 +48,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User)authentication.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+
+        UserServiceImpl service = new UserServiceImpl();
+
+        if(service.checkIfUserIsBanned(user.getUsername())) {
+            throw new ServletException("User is banned");
+        }
+
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
                 //.withExpiresAt(new Date(System.currentTimeMillis()).)
