@@ -4,10 +4,7 @@ import com.vladanristic.dtos.CourseDTO;
 import com.vladanristic.dtos.CourseReviewDTO;
 import com.vladanristic.dtos.UserDTO;
 import com.vladanristic.entities.*;
-import com.vladanristic.repository.CourseRepository;
-import com.vladanristic.repository.CourseStartedRepository;
-import com.vladanristic.repository.LessonCompletedRepository;
-import com.vladanristic.repository.SectionRepository;
+import com.vladanristic.repository.*;
 import com.vladanristic.service.CourseService;
 import com.vladanristic.service.LessonService;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +31,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private LessonService lessonService;
+
+    @Autowired
+    private LessonRepository lessonRepository;
 
     public CourseServiceImpl() {
 
@@ -100,9 +100,14 @@ public class CourseServiceImpl implements CourseService {
         int lessonsCount = 0;
         for(Section section: this.sectionRepository.findAllBySectionCourseIdOrderBySectionOrderAsc(course)) {
             lessonsCount+=section.getLessonList().size();
-            for(Lesson lesson: section.getLessonList()) {
-                lesson.setLessonCompleted(this.lessonService.checkIfUserCompletedLesson(course.getCourseId(), userId, lesson.getLessonId()));
+            List<Lesson> tempArray = new ArrayList<>();
+            for(Lesson lesson: this.lessonRepository.findAllByLessonSectionIdAndLessonPublishedIsTrueOrderByLessonOrderAsc(section)) {
+                if(lesson.getLessonPublished()) {
+                    lesson.setLessonCompleted(this.lessonService.checkIfUserCompletedLesson(course.getCourseId(), userId, lesson.getLessonId()));
+                    tempArray.add(lesson);
+                }
             }
+            section.setLessonList(tempArray);
         }
         courseDTO.setLessonsCount(lessonsCount);
 

@@ -11,6 +11,7 @@ import java.util.List;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     List<Lesson> getTop3ByLessonVideoLinkNotNull();
+    List<Lesson> findAllByLessonSectionIdAndLessonPublishedIsTrueOrderByLessonOrderAsc(Section section);
     List<Lesson> findAllByLessonSectionIdOrderByLessonOrderAsc(Section section);
     Lesson findFirstByLessonSectionIdOrderByLessonOrderDesc(Section section);
 

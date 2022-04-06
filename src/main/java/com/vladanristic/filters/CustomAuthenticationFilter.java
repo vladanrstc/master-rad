@@ -51,7 +51,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         UserServiceImpl service = new UserServiceImpl();
 
-        if(service.checkIfUserIsBanned(user.getUsername())) {
+        if(!service.checkIfUserIsBanned(user.getUsername())) {
             throw new ServletException("User is banned");
         }
 
